@@ -1,0 +1,10 @@
+<h1>Skills</h1>
+<ul>
+<% skills.forEach(skills => { %>
+     <li>
+         <%= skills.text %> 
+         - 
+         <%= skills.done ? 'done' : 'not done' %>
+          </li>
+  <% }) %>
+</ul>
