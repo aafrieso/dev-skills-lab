@@ -4,21 +4,17 @@ import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import logger from 'morgan'
+import methodOverride from 'method-override'
+
+//connect to database
+import "./config/database.js"
 
 // import routers
 import { router as indexRouter } from './routes/index.js'
-import { router as usersRouter } from './routes/skills.js'
 import { router as skillsRouter } from './routes/skills.js'
-import './config/database.js'
 
 // set up app
 const app = express()
-
-import { Router } from 'express'
-// import the Todo data
-import { skills } from '../data/skills-data.js'
-
-const router = Router()
 
 // view engine setup
 app.set(
@@ -26,6 +22,11 @@ app.set(
   path.join(path.dirname(fileURLToPath(import.meta.url)), 'views')
 )
 app.set('view engine', 'ejs')
+
+app.use(function(req, res, next) {
+  req.time = new Date().toLocaleTimeString()
+  next()
+})
 
 // middleware
 app.use(logger('dev'))
@@ -36,17 +37,11 @@ app.use(
     path.join(path.dirname(fileURLToPath(import.meta.url)), 'public')
   )
 )
+app.use(methodOverride('_method'))
 
 // mounted routers
 app.use('/', indexRouter)
-app.use('/users', usersRouter)
 app.use('/skills', skillsRouter)
-
-app.get('/', function(req, res) {
-  res.render('skills/index', {
-    skills: skills
-  })
-})
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
