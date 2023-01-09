@@ -10,3 +10,9 @@ router.get('/', function(req, res) {
 export {
   router
 }
+
+function(req, res) {
+  res.render('skills/index', {
+    skills: skills
+  })
+}
