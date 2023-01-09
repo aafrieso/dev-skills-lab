@@ -15,8 +15,5 @@ export {
   router
 }
 
-function(req, res) {
-  res.render('skills/index', {
-    skills: skills
-  })
-}
+router.get('/', skillsCtrl.index)
+router.get('/new', skillsCtrl.new)
